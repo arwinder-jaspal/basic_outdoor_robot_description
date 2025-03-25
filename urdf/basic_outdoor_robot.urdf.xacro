@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<robot name="basic_outdoor_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <material name="blue">
+        <color rgba="0 0 0.8 1"/>
+    </material>
+    <material name="black">
+        <color rgba="0 0 0 1"/>
+    </material>
+    <material name="white">
+        <color rgba="1 1 1 1"/>
+    </material>
+
+
+    <!-- File Include -->
+    <xacro:include filename="accessories/wheel.xacro"/>
+
+    <!-- Variables -->
+    <xacro:property name="M_PI" value="3.1415926535897931"/>
+
+    <!-- Robot Geometries -->
+    <xacro:property name="base_x_size" value="0.672" />
+    <xacro:property name="base_y_size" value="0.270" />
+    <xacro:property name="base_z_size" value="0.190" />
+    <xacro:property name="base_mass" value="20.0" />
+
+    <xacro:property name="wheelbase" value="0.498" />
+    <xacro:property name="track" value="0.583" />
+    <xacro:property name="wheel_vertical_offset" value="-0.070" />
+    <xacro:property name="base_offset" value="0.140" /> 
+
+    <xacro:property name="wheel_width" value="0.116" />
+    <xacro:property name="wheel_radius" value="0.165" /> 
+
+    <!-- Dummy Values -->
+    <xacro:property name="dummy_inertia" value="1e-09"/>
+
+    <!-- Base Link -->
+    <link name="base_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="${base_x_size} ${wheelbase-wheel_radius/2} ${base_z_size}"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="${base_x_size} ${wheelbase-wheel_radius/2} ${base_z_size}"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="${base_mass}"/>
+            <inertia ixx="${(base_mass/12)*(base_y_size*base_y_size+base_z_size*base_z_size)}" ixy="0.0" ixz="0.0"
+                iyy="${(base_mass/12)*(base_x_size*base_x_size+base_z_size*base_z_size)}" iyz="0.0"
+                izz="${(base_mass/12)*(base_x_size*base_x_size+base_y_size*base_y_size)}" />
+        </inertial>
+
+    </link>
+
+    <!-- Base Footprint -->
+    <link name="base_footprint"/>
+
+    <joint name="base_footprint_joint" type="fixed">
+        <origin xyz="0 0 ${wheel_vertical_offset - wheel_radius}" rpy="0 0 0" />
+        <parent link="base_link" />
+        <child link="base_footprint" />
+    </joint>
+
+    <!-- Wheels -->
+    <xacro:robot_wheel wheel_prefix="front_right">
+        <origin xyz="${wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+    </xacro:robot_wheel>
+
+    <xacro:robot_wheel wheel_prefix="front_left">
+        <origin xyz="${wheelbase/2} ${track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+    </xacro:robot_wheel>
+
+    <xacro:robot_wheel wheel_prefix="rear_left">
+        <origin xyz="${-wheelbase/2} ${track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+    </xacro:robot_wheel>
+
+    <xacro:robot_wheel wheel_prefix="rear_right">
+        <origin xyz="${-wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+    </xacro:robot_wheel>
+
+    <!-- IMU -->
+    <link name="imu_link">
+        <inertial>
+            <mass value="0.001"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="${dummy_inertia}" ixy="0.0" ixz="0.0" iyy="${dummy_inertia}" iyz="0.0" izz="${dummy_inertia}"/>
+        </inertial>
+    </link>
+    <joint name="imu_joint" type="fixed">
+        <parent link="base_footprint" />
+        <child link="imu_link" />
+    </joint>
+
+</robot>
