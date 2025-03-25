@@ -95,7 +95,7 @@
         </inertial>
     </link>
     <joint name="imu_joint" type="fixed">
-        <parent link="base_footprint" />
+        <parent link="base_link" />
         <child link="imu_link" />
     </joint>
 
