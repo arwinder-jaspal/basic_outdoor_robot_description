@@ -11,7 +11,7 @@ def generate_launch_description():
 
     # set path to different files and folders
     pkg_share = FindPackageShare(package='basic_outdoor_robot_description').find('basic_outdoor_robot_description')
-    default_model_path = os.path.join(pkg_share, 'urdf', 'basic_outdoor_robot.urdf')
+    default_model_path = os.path.join(pkg_share, 'urdf', 'basic_outdoor_robot.urdf.xacro')
     default_rviz_config_path = os.path.join(pkg_share, 'rviz', 'basic_outdoor_robot.rviz')
     robot_description = Command(['xacro ', default_model_path])
 
