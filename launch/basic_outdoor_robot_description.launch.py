@@ -65,7 +65,11 @@ def generate_launch_description():
         name='robot_state_publisher',
         output='screen',
         parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time'), 'robot_description': LaunchConfiguration('robot_description')}],
-        arguments=[default_model_path]
+        arguments=[default_model_path],
+        remappings=[
+            ('/tf', 'tf'),
+            ('/tf_static', 'tf_static')
+        ]
     )
 
     rviz_node = Node(
@@ -74,6 +78,7 @@ def generate_launch_description():
         name='rviz2',
         output='screen',
         arguments=['-d', LaunchConfiguration('rviz_config')],
+        parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
     )
 
     ld.add_action(declare_model_path_cmd)
