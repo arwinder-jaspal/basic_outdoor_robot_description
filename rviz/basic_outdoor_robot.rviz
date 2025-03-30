@@ -4,9 +4,6 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /Global Options1
-        - /Status1
-        - /RobotModel1
         - /RobotModel1/Description Topic1
       Splitter Ratio: 0.5
     Tree Height: 708
@@ -86,6 +83,10 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        imu_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         rear_left_wheel_link:
           Alpha: 1
           Show Axes: false
@@ -119,6 +120,8 @@ Visualization Manager:
           Value: true
         front_right_wheel_link:
           Value: true
+        imu_link:
+          Value: true
         rear_left_wheel_link:
           Value: true
         rear_right_wheel_link:
@@ -127,7 +130,7 @@ Visualization Manager:
       Name: TF
       Show Arrows: true
       Show Axes: true
-      Show Names: false
+      Show Names: true
       Tree:
         base_link:
           base_footprint:
@@ -135,6 +138,8 @@ Visualization Manager:
           front_left_wheel_link:
             {}
           front_right_wheel_link:
+            {}
+          imu_link:
             {}
           rear_left_wheel_link:
             {}
@@ -203,10 +208,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.5147976875305176
+      Pitch: 0.449797660112381
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.6903926134109497
+      Yaw: 0.6703938841819763
     Saved: ~
 Window Geometry:
   Displays:
@@ -224,5 +229,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1908
-  X: 0
-  Y: 0
+  X: 1888
+  Y: -32
