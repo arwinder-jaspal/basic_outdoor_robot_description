@@ -58,22 +58,6 @@ def generate_launch_description():
         description= 'URDF definition of robot'
     )
 
-    # Joint State Publisher Node
-    joint_state_publisher_node = Node(
-        package='joint_state_publisher',
-        executable='joint_state_publisher',
-        name='joint_state_publisher',
-        condition=UnlessCondition(LaunchConfiguration('use_simulator'))
-    )
-
-    # Start Joint State GUI
-    start_joint_state_gui_node = Node(
-        condition=IfCondition(LaunchConfiguration('use_simulator')),
-        package='joint_state_publisher_gui',
-        executable='joint_state_publisher_gui',
-        name='joint_state_publisher_gui'
-    )
-
     # Start Robot State Publisher
     robot_state_publisher_node = Node(
         package='robot_state_publisher',
@@ -101,8 +85,6 @@ def generate_launch_description():
     ld.add_action(declare_use_joint_state_simulator_cmd)
     ld.add_action(declare_robot_description_cmd)
 
-    ld.add_action(joint_state_publisher_node)
-    ld.add_action(start_joint_state_gui_node)
     ld.add_action(robot_state_publisher_node)
     ld.add_action(rviz_node)
 
