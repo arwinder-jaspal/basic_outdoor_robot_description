@@ -10,10 +10,14 @@
     <material name="white">
         <color rgba="1 1 1 1"/>
     </material>
+    <material name="red">
+        <color rgba="1 0 0 1"/>
+    </material>
 
 
     <!-- File Include -->
-    <xacro:include filename="accessories/wheel.xacro"/>
+    <xacro:include filename="$(find basic_outdoor_robot_description)/urdf/accessories/wheel.xacro"/>
+    <xacro:include filename="$(find basic_outdoor_robot_description)/urdf/accessories/depth_camera.xacro"/>
 
     <!-- Variables -->
     <xacro:property name="M_PI" value="3.1415926535897931"/>
@@ -34,6 +38,10 @@
 
     <!-- Dummy Values -->
     <xacro:property name="dummy_inertia" value="1e-09"/>
+
+    <!-- Camera Properties -->
+    <xacro:property name="depth_camera_xyz" value="0.25 0 0.8"/>
+    <xacro:property name="depth_camera_rpy" value="0 ${M_PI/6} 0"/>
 
     <!-- ros2 control params -->
     <xacro:arg name="ros2_control_config" default="$(find basic_outdoor_robot_description)/config/control.yaml" />
@@ -98,6 +106,13 @@
 
     <link name="imu_link">
     </link>
+
+    <!-- Depth Camera -->
+    <xacro:depth_camera name="depth_camera" inertia="${dummy_inertia}">
+        <origin xyz="0 -0.0105 0" rpy=" ${M_PI/2} ${M_PI} ${M_PI/2}" />
+        <material name="red"/>
+        <origin xyz="${depth_camera_xyz}" rpy="${depth_camera_rpy}"/>
+    </xacro:depth_camera>
 
     <xacro:include filename="$(find basic_outdoor_robot_description)/urdf/basic_outdoor_robot.gazebo" />
 </robot>
