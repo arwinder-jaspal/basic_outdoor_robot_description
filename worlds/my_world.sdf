@@ -80,6 +80,11 @@
     <include>
       <uri>https://fuel.ignitionrobotics.org/1.0/openrobotics/models/Sonoma Raceway</uri>
     </include>
+    
+    <plugin
+      filename="gz-sim-imu-system"
+      name="gz::sim::systems::Imu">
+    </plugin>
 
   </world>
 </sdf>
