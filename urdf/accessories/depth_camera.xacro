@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="depth_camera">
+    <xacro:property name="camera_length" value="0.05" />
+    <xacro:property name="camera_width" value="0.08" /> 
+    <xacro:property name="camera_height" value="0.08" />
+    <xacro:property name="camera_mass" value="0.2"/>
+    <xacro:macro name="depth_camera" params="name inertia *visual_pose *material *joint_pose">
+
+        <link name="${name}_link">
+            <visual>
+                <xacro:insert_block name="visual_pose"/>
+                <geometry>
+                    <box size="${camera_length} ${camera_width} ${camera_height}" />
+                </geometry>
+                <xacro:insert_block name="material"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <box size="${camera_length} ${camera_width} ${camera_height}" />
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <mass value="${camera_mass}"/>
+                <inertia ixx="${inertia}" ixy="0.0" ixz="0.0" iyy="${inertia}" iyz="0.0" izz="${inertia}"/>
+            </inertial>
+            
+        </link>
+
+        <joint name="${name}_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="${name}_link"/>
+            <xacro:insert_block name="joint_pose"/>
+            <axis xyz="0 -1 0" rpy="0 0 0" />
+        </joint>
+        
+        <link name ="${name}_optical_link">
+        </link>
+
+        <joint name="${name}_optical_joint" type="fixed">
+            <parent link="${name}_link"/>
+            <child link="${name}_optical_link"/>
+            <axis xyz="0 -1 0" rpy="${-M_PI} 0 ${-M_PI}"/>
+        </joint>
+    </xacro:macro>
+
+</robot>

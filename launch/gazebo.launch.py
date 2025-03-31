@@ -44,13 +44,17 @@ def generate_launch_description():
             "/odom@nav_msgs/msg/Odometry@gz.msgs.Odometry",
             "/joint_states@sensor_msgs/msg/JointState@gz.msgs.Model",
             "/tf@tf2_msgs/msg/TFMessage@gz.msgs.Pose_V",
-            "imu@sensor_msgs/msg/Imu@gz.msgs.IMU"
+            "imu@sensor_msgs/msg/Imu@gz.msgs.IMU",
+            "/camera/camera_info@sensor_msgs/msg/CameraInfo@gz.msgs.CameraInfo",
+            "/camera/depth_image@sensor_msgs/msg/Image@gz.msgs.Image",
+            "/camera/points@sensor_msgs/msg/PointCloud2@gz.msgs.PointCloudPacked",
         ],
         output="screen",
         parameters=[
             {'use_sim_time': True},
         ]
     )
+
     ld.add_action(gazebo)
     ld.add_action(spawn_entity)
     ld.add_action(gz_bridge_node)
