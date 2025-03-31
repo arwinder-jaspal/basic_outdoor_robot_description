@@ -4,6 +4,7 @@ from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import PathJoinSubstitution, LaunchConfiguration, TextSubstitution
 
 
 def generate_launch_description():
@@ -13,7 +14,6 @@ def generate_launch_description():
     pkg_share = get_package_share_directory('basic_outdoor_robot_description')
     world_file_name = 'my_world.sdf'
     world_path = os.path.join(pkg_share, 'worlds', world_file_name)
-    print(world_path)
 
     # Launch Gazebo
     gazebo = IncludeLaunchDescription(PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('ros_gz_sim'), 
