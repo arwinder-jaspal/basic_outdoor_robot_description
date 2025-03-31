@@ -2,7 +2,7 @@ import os
 from launch import LaunchDescription
 from launch_ros.actions import Node
 from launch.actions import DeclareLaunchArgument
-from launch.conditions import IfCondition, UnlessCondition
+from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration, Command
 from launch_ros.substitutions import FindPackageShare
 
@@ -31,26 +31,15 @@ def generate_launch_description():
         default_value='true',
         description='Use simulation clock if true') 
 
-    declare_use_robot_state_pub_cmd = DeclareLaunchArgument(
-        name='use_robot_state_pub',
-        default_value='True',
-        description='Whether to start the robot state publisher')
-
     declare_use_joint_state_pub_cmd = DeclareLaunchArgument(
         name='use_joint_state_pub',
-        default_value='True',
+        default_value='False',
         description='Whether to start the joint state publisher')
-
+    
     declare_use_rviz_cmd = DeclareLaunchArgument(
         name='use_rviz',
         default_value='True',
         description='Whether to start RVIZ')
-
-    declare_use_joint_state_simulator_cmd = DeclareLaunchArgument(
-        name='use_simulator',
-        default_value='True',
-        description="Use Joint State Publisher GUI"
-    )
 
     declare_robot_description_cmd = DeclareLaunchArgument(
         name = 'robot_description',
@@ -72,6 +61,14 @@ def generate_launch_description():
         ]
     )
 
+    # Joint State Publisher Node
+    joint_state_publisher_node = Node(
+        package='joint_state_publisher',
+        executable='joint_state_publisher',
+        name='joint_state_publisher',
+        condition=IfCondition(LaunchConfiguration('use_joint_state_pub'))
+    )
+
     rviz_node = Node(
         package='rviz2',
         executable='rviz2',
@@ -79,18 +76,18 @@ def generate_launch_description():
         output='screen',
         arguments=['-d', LaunchConfiguration('rviz_config')],
         parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
+        condition = IfCondition(LaunchConfiguration('use_rviz'))
     )
 
     ld.add_action(declare_model_path_cmd)
     ld.add_action(declare_rviz_config_path_cmd)
     ld.add_action(declare_use_sim_time_cmd)
-    ld.add_action(declare_use_robot_state_pub_cmd)
     ld.add_action(declare_use_joint_state_pub_cmd)
-    ld.add_action(declare_use_rviz_cmd)
-    ld.add_action(declare_use_joint_state_simulator_cmd)
     ld.add_action(declare_robot_description_cmd)
+    ld.add_action(declare_use_rviz_cmd)
 
     ld.add_action(robot_state_publisher_node)
+    ld.add_action(joint_state_publisher_node)
     ld.add_action(rviz_node)
 
     return ld
