@@ -72,7 +72,7 @@
             <tf_topic>tf</tf_topic>
             <frame_id>odom</frame_id>
             <child_frame_id>base_footprint</child_frame_id>
-            <odom_publish_frequency>30</odom_publish_frequency>
+            <odom_publish_frequency>50</odom_publish_frequency>
         </plugin>
 
         <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
